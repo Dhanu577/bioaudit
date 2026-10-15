@@ -27,5 +27,8 @@ The Python Bioaudit v2 analyzer remains the sole analysis engine. The browser ap
 - [x] Deliver a high-end, striking UI for the web development project, with a strong information hierarchy, readable code presentation, and interaction states suitable for technical and non-technical users.
 - [x] Make the interface accessible and usable on desktop and mobile.
 
+## 8. Theme options
+- [x] Let the user switch between a white/light theme and a black/dark theme, keeping the current look as the dark theme; remember the selected theme across page reloads.
+
 ## Design direction
 - Scientific editorial instrument panel: deep ink surfaces, cool mineral neutrals, and a distinctive electric-lime signal color; asymmetrical, evidence-first composition; restrained motion and precise monospaced evidence accents. Keep visual effects behind content so they never compete with findings.

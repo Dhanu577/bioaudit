@@ -11,7 +11,7 @@ python -m pip install -r requirements.txt
 uvicorn server:app --host 0.0.0.0 --port 3000
 ```
 
-Open `http://localhost:3000`. The app has no database or account requirement. Uploaded inputs are held in a request-scoped temporary directory and removed when processing ends.
+Open `http://localhost:3000`. The app has no database or account requirement. Uploaded inputs are held in a request-scoped temporary directory and removed when processing ends. The Light/Dark appearance choice is stored in the browser.
 
 ## Browser inputs
 

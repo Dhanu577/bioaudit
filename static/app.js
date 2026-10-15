@@ -2,6 +2,32 @@ const $ = (selector, root = document) => root.querySelector(selector);
 const state = { report: null, selected: -1, repoMode: 'archive', loading: false, timer: null };
 const VERDICTS = ['MISMATCH', 'PARTIAL_MATCH', 'NOT_FOUND', 'IMPORT_ONLY', 'VALUE_PRESENT_UNRELATED', 'RESULT_NEEDS_RUN', 'LITERAL_FOUND', 'MATCH', 'CALL_FOUND'];
 const KIND_LABEL = { number: 'PARAMETER / RESULT', concept: 'METHOD CONCEPT' };
+const THEME_STORAGE_KEY = 'bioaudit-theme';
+
+function setTheme(theme, persist = false) {
+  const selectedTheme = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = selectedTheme;
+  document.querySelectorAll('[data-theme-choice]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.themeChoice === selectedTheme));
+  });
+  const themeColor = $('meta[name="theme-color"]');
+  if (themeColor) themeColor.content = selectedTheme === 'light' ? '#f3f5ef' : '#09100f';
+  if (persist) {
+    try { window.localStorage.setItem(THEME_STORAGE_KEY, selectedTheme); } catch {}
+  }
+}
+
+function initTheme() {
+  let savedTheme = document.documentElement.dataset.theme || 'dark';
+  try { savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY) || savedTheme; } catch {}
+  setTheme(savedTheme);
+  document.querySelectorAll('[data-theme-choice]').forEach(button => {
+    button.addEventListener('click', () => setTheme(button.dataset.themeChoice, true));
+  });
+}
+
+initTheme();
+
 const $form = $('#auditForm');
 const $paper = $('#paperInput');
 const $repo = $('#repoInput');
