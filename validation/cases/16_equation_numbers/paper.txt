@@ -1,0 +1,1 @@
+We form the posterior from the likelihood (7) and the prior (5), and we set the FDR threshold to 0.05.

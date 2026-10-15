@@ -1,0 +1,10 @@
+{
+  "expect": [
+    {
+      "kind": "concept",
+      "key": "random_forest",
+      "verdict": "IMPORT_ONLY"
+    }
+  ],
+  "forbid": []
+}

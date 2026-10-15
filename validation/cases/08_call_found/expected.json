@@ -1,0 +1,15 @@
+{
+  "expect": [
+    {
+      "kind": "concept",
+      "key": "random_forest",
+      "verdict": "CALL_FOUND"
+    },
+    {
+      "kind": "concept",
+      "key": "cross_validation",
+      "verdict": "CALL_FOUND"
+    }
+  ],
+  "forbid": []
+}

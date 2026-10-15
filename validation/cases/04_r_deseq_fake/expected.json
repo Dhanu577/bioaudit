@@ -1,0 +1,25 @@
+{
+  "expect": [
+    {
+      "kind": "concept",
+      "key": "deseq2",
+      "verdict": "NOT_FOUND"
+    },
+    {
+      "kind": "concept",
+      "key": "negative_binomial",
+      "verdict": "NOT_FOUND"
+    },
+    {
+      "kind": "concept",
+      "key": "multiple_testing",
+      "verdict": "NOT_FOUND"
+    },
+    {
+      "kind": "number",
+      "key": "0.05",
+      "verdict": "NOT_FOUND"
+    }
+  ],
+  "forbid": []
+}

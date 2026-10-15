@@ -1,0 +1,35 @@
+{
+  "expect": [
+    {
+      "kind": "number",
+      "key": "50",
+      "verdict": "MISMATCH"
+    },
+    {
+      "kind": "number",
+      "key": "0.05",
+      "verdict": "MISMATCH"
+    },
+    {
+      "kind": "number",
+      "key": "0.8",
+      "verdict": "MISMATCH"
+    },
+    {
+      "kind": "number",
+      "key": "15",
+      "verdict": "MISMATCH"
+    },
+    {
+      "kind": "concept",
+      "key": "leiden",
+      "verdict": "CALL_FOUND"
+    },
+    {
+      "kind": "concept",
+      "key": "multiple_testing",
+      "verdict": "CALL_FOUND"
+    }
+  ],
+  "forbid": []
+}

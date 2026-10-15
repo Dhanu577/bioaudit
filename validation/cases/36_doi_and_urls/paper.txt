@@ -1,0 +1,1 @@
+See https://doi.org/10.1186/s13059-017-1382-0 and https://github.com/x/y170505 for details. We set the FDR threshold to 0.05.

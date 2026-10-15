@@ -1,0 +1,10 @@
+{
+  "expect": [
+    {
+      "kind": "number",
+      "key": "0.25",
+      "verdict": "LITERAL_FOUND"
+    }
+  ],
+  "forbid": []
+}

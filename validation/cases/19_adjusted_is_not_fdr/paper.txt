@@ -1,0 +1,1 @@
+We form the posterior from the Cox-Reid adjusted likelihood and a prior, using a window of 7 genes.

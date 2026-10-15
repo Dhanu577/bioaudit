@@ -1,0 +1,1 @@
+For each gene, we fit a generalized linear model to the counts. We compare edgeR and DESeq2 on the data. We simulated datasets of 10 samples with a threshold of 0.05 for calling.

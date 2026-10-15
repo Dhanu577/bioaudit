@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09100f">
+  <meta name="description" content="Trace methodological claims in research papers to evidence in the accompanying repository code.">
+  <title>Bioaudit — Evidence over assumption</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the audit workspace</a>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="app-shell" id="top">
+    <aside class="rail" aria-label="Application navigation">
+      <a class="brand" href="#top" aria-label="Bioaudit home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" role="presentation"><path d="M8 11.5 20 5l12 6.5v17L20 35 8 28.5z"/><path d="M13 15.5 20 12l7 3.5v9L20 28l-7-3.5z"/><path d="m16.5 20 2.3 2.3 5-5"/></svg>
+        </span>
+        <span class="brand-word">bio<span>audit</span><small>RESEARCH TRACEABILITY</small></span>
+      </a>
+      <div class="rail-divider"></div>
+      <span class="rail-label">WORKSPACE</span>
+      <nav class="rail-nav">
+        <button class="rail-link active" id="navAudit" type="button" aria-current="page"><span class="nav-glyph glyph-crosshair">◎</span><span>New audit</span><kbd>01</kbd></button>
+        <button class="rail-link" id="navFindings" type="button"><span class="nav-glyph">⌁</span><span>Findings</span><kbd>02</kbd></button>
+        <a class="rail-link" href="#method"><span class="nav-glyph">↗</span><span>How it works</span><kbd>03</kbd></a>
+      </nav>
+      <div class="rail-spacer"></div>
+      <div class="rail-engine">
+        <div class="engine-top"><span class="engine-dot"></span><span>ENGINE ONLINE</span></div>
+        <p>Static analysis<br><strong>Nothing is executed.</strong></p>
+        <div class="engine-languages"><span>PY</span><span>R</span><span>C/C++</span></div>
+      </div>
+      <div class="rail-foot"><span>BIOAUDIT v2.0</span><span>BUILT FOR REPRODUCIBILITY</span></div>
+    </aside>
+
+    <main id="main">
+      <header class="topbar">
+        <div class="crumb"><span>TRACEABILITY /</span> PAPER ↔ CODE</div>
+        <div class="topbar-right"><span class="privacy-chip"><span class="tiny-lock">◆</span> TEMPORARY INPUTS</span><span class="topbar-version">ENGINE <b>02.0</b></span></div>
+      </header>
+
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> A STATIC RESEARCH AUDIT</div>
+          <h1 id="hero-title">Evidence<br>over <em>assumption.</em></h1>
+          <p class="hero-description">Follow the methods and parameters stated in a paper back to the code that should carry them. Every finding comes with a place to look.</p>
+          <div class="hero-actions">
+            <button class="button button-primary" id="startAudit" type="button"><span>Start an audit</span><span class="button-arrow">↘</span></button>
+            <button class="button button-quiet" id="runDemo" type="button"><span class="play-icon">▷</span> Explore a sample report</button>
+          </div>
+          <div class="hero-footnote"><span class="footnote-mark">!</span><span>It checks static evidence, not scientific truth or runtime behavior.</span></div>
+        </div>
+        <div class="hero-art" aria-label="Illustration of a research claim traced to code evidence">
+          <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
+          <div class="orb-core"><span class="core-cross">+</span><strong>CLAIM</strong><small>0.05</small></div>
+          <span class="orbit-node node-a"><i></i> paper.pdf <b>p. 08</b></span>
+          <span class="orbit-node node-b"><i></i> analysis.py <b>L. 42</b></span>
+          <span class="orbit-node node-c"><i></i> method call <b>FOUND</b></span>
+          <span class="art-coordinate coord-a">X 045.8 / Y 012.4</span>
+          <span class="art-coordinate coord-b">CORRESPONDENCE MAP · 01</span>
+          <svg class="art-traces" viewBox="0 0 540 410" fill="none" aria-hidden="true"><path d="M82 290C145 250 147 158 231 155s86 92 162 72 36-87 100-103"/><path d="M121 354C202 319 204 247 266 243s86 33 134 9 40-62 92-72"/><circle cx="231" cy="155" r="4"/><circle cx="393" cy="227" r="4"/><circle cx="493" cy="124" r="4"/><circle cx="266" cy="243" r="3"/><circle cx="121" cy="354" r="3"/></svg>
+          <div class="art-caption"><span>01 — LINK THE CLAIM</span><span>02 — INSPECT THE SOURCE</span></div>
+        </div>
+        <div class="hero-index"><span>01</span><span>02</span><span>03</span></div>
+      </section>
+
+      <section class="workspace-section" id="audit" aria-labelledby="audit-title">
+        <div class="section-heading">
+          <div><div class="section-kicker"><span>01</span> / ANALYSIS WORKSPACE</div><h2 id="audit-title">Bring the paper.<br><span>Bring the code.</span></h2></div>
+          <p>Two sources in. A traceable, static comparison out.</p>
+        </div>
+        <form id="auditForm" class="audit-form" novalidate>
+          <div class="source-grid">
+            <div class="source-card source-paper">
+              <div class="source-card-top"><span class="source-number">A / 01</span><span class="source-type">RESEARCH PAPER</span></div>
+              <label class="dropzone" id="paperDrop" for="paperInput">
+                <input id="paperInput" name="paper" type="file" accept=".pdf,.txt,application/pdf,text/plain" required>
+                <span class="upload-symbol" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 22V6m0 0-6 6m6-6 6 6M6 20v6h20v-6"/></svg></span>
+                <span class="drop-title" id="paperFileTitle">Drop a paper here</span>
+                <span class="drop-subtitle" id="paperFileMeta">PDF or plain text · max 40 MB</span>
+                <span class="choose-link">Browse files <span>↗</span></span>
+              </label>
+              <div class="source-card-foot"><span>Text PDFs only</span><span class="mini-dot"></span><span>Scanned pages need OCR first</span></div>
+            </div>
+
+            <div class="source-card source-repo">
+              <div class="source-card-top"><span class="source-number">B / 02</span><span class="source-type">CODE REPOSITORY</span></div>
+              <div class="mode-switch" role="group" aria-label="Repository input type">
+                <button class="mode-button active" type="button" data-repo-mode="archive" aria-pressed="true">ZIP archive</button>
+                <button class="mode-button" type="button" data-repo-mode="url" aria-pressed="false">Public Git URL</button>
+              </div>
+              <div class="repo-mode-panel" id="archivePanel">
+                <label class="dropzone compact-drop" id="repoDrop" for="repoInput">
+                  <input id="repoInput" name="repo_archive" type="file" accept=".zip,application/zip,application/x-zip-compressed">
+                  <span class="upload-symbol small-upload" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7 9h18l-2 17H9L7 9Zm4 0V6h10v3M12 14v7m4-7v7m4-7v7"/></svg></span>
+                  <span class="drop-title" id="repoFileTitle">Drop a repository ZIP</span>
+                  <span class="drop-subtitle" id="repoFileMeta">ZIP archive · max 100 MB</span>
+                  <span class="choose-link">Browse <span>↗</span></span>
+                </label>
+                <div class="source-card-foot"><span>Up to 20,000 entries</span><span class="mini-dot"></span><span>500 MB expanded cap</span></div>
+              </div>
+              <div class="repo-mode-panel" id="urlPanel" hidden>
+                <label class="field-label" for="repoUrl">PUBLIC HTTPS REPOSITORY URL</label>
+                <div class="url-field"><span aria-hidden="true">↗</span><input id="repoUrl" name="repo_url" type="url" placeholder="https://github.com/owner/repository" autocomplete="url" spellcheck="false"></div>
+                <label class="field-label revision-label" for="revision">OPTIONAL REVISION</label>
+                <input class="revision-input" id="revision" name="revision" type="text" placeholder="branch, tag, or commit" autocomplete="off" spellcheck="false">
+                <div class="source-card-foot"><span>GitHub · GitLab · Bitbucket</span><span class="mini-dot"></span><span>Public HTTPS only</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-bottom">
+            <div class="privacy-note"><span class="privacy-icon">⌑</span><span>Inputs are processed temporarily and discarded after the audit.</span></div>
+            <button class="button button-run" id="submitAudit" type="submit"><span>Run static audit</span><span class="button-arrow">↗</span></button>
+          </div>
+          <p class="form-error" id="formError" role="alert" hidden></p>
+        </form>
+        <div class="run-status" id="runStatus" role="status" aria-live="polite" hidden>
+          <span class="status-spinner" aria-hidden="true"></span><div><strong id="statusTitle">Scanning source evidence</strong><p id="statusDescription">Bioaudit is mapping paper claims to source facts. Repository code is never run.</p></div><span class="elapsed" id="elapsedTime">00:00</span>
+        </div>
+      </section>
+
+      <section class="results-section" id="results" aria-labelledby="results-title" hidden>
+        <div class="results-heading">
+          <div><div class="section-kicker"><span>02</span> / EVIDENCE REVIEW <span class="sample-tag" id="sampleTag" hidden>SYNTHETIC DEMO</span></div><h2 id="results-title">The trace<br><span>is in the details.</span></h2></div>
+          <div class="export-actions"><button class="button button-export" id="exportHtml" type="button">Share HTML report <span>↗</span></button><button class="button button-export secondary-export" id="exportJson" type="button">Export JSON <span>↓</span></button></div>
+        </div>
+        <div class="summary-strip" id="summaryStrip" aria-label="Audit finding summary"></div>
+        <div class="results-toolbar">
+          <label class="search-box"><span aria-hidden="true">⌕</span><input id="findingSearch" type="search" placeholder="Search claims, values, files…" aria-label="Search findings"></label>
+          <label class="filter-wrap"><span>TYPE</span><select id="kindFilter" aria-label="Filter by finding type"><option value="all">All findings</option><option value="number">Parameters & results</option><option value="concept">Methods</option></select></label>
+          <label class="filter-wrap"><span>VERDICT</span><select id="verdictFilter" aria-label="Filter by verdict"><option value="all">All verdicts</option></select></label>
+          <label class="filter-wrap group-filter"><span>GROUP</span><select id="groupFilter" aria-label="Group findings"><option value="none">No grouping</option><option value="verdict">Verdict</option><option value="file">Source file</option><option value="kind">Parameter / method</option></select></label>
+        </div>
+        <div class="results-layout">
+          <div class="finding-list-wrap"><div class="list-caption"><span id="findingCount">0 FINDINGS</span><span>SELECT A ROW TO INSPECT</span></div><div class="finding-list" id="findingList"></div><div class="empty-filter" id="emptyFilter" hidden>No findings match these filters. Try a broader search.</div></div>
+          <aside class="detail-panel" id="detailPanel" aria-label="Selected finding detail"><div class="detail-empty"><span class="detail-empty-icon">⌁</span><strong>Evidence, in context.</strong><p>Select a finding to inspect the claim, verdict rationale, and source lines.</p></div></aside>
+        </div>
+        <div class="report-meta" id="reportMeta"></div>
+        <div class="limitations-callout"><span class="callout-symbol">!</span><div><strong>Interpret this as a trace, not a verdict on the science.</strong><p>A match means related evidence was found in scanned code. It does not prove the code runs, is correct, reproduces a result, or validates a scientific conclusion. A missing finding means the scanner did not locate it—not necessarily that it is absent.</p></div></div>
+      </section>
+
+      <section class="method-section" id="method" aria-labelledby="method-title">
+        <div class="section-kicker"><span>03</span> / WHAT BIOAUDIT DOES</div>
+        <div class="method-body"><h2 id="method-title">A map between<br><em>words and work.</em></h2><div class="method-copy"><p>Bioaudit looks for checkable parameter names, numeric values, and a selected vocabulary of method calls across the paper and repository. It scans Python, R, C/C++, and selected script formats without running the repository.</p><div class="method-list"><div><span>01</span><strong>Read the claim</strong><p>Extract named methods and stated parameters from selectable paper text.</p></div><div><span>02</span><strong>Scan the source</strong><p>Find corresponding constants, options, imports, and method calls in supported code.</p></div><div><span>03</span><strong>Follow the evidence</strong><p>Review file paths, line numbers, code snippets, and the analyzer's rationale.</p></div></div></div></div>
+      </section>
+      <footer class="page-footer"><a class="footer-brand" href="#top">BIOAUDIT <span>02.0</span></a><span>STATIC ANALYSIS · SOURCE CODE IS NEVER EXECUTED</span><a href="#method">Understand the limits ↗</a></footer>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "expect": [],
+  "forbid": [
+    {
+      "kind": "concept",
+      "key": "edger"
+    },
+    {
+      "kind": "concept",
+      "key": "deseq2"
+    }
+  ]
+}

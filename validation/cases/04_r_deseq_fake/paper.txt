@@ -1,0 +1,1 @@
+We used DESeq2 with a negative binomial model for differential expression. We adjusted p-values by the Benjamini-Hochberg procedure and applied an FDR threshold of 0.05.

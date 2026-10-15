@@ -1,0 +1,1 @@
+The average quality threshold is 30 for the sliding window.

@@ -1,0 +1,1 @@
+The default values are k = 35 and l = 31 for the index.

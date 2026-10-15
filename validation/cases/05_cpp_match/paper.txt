@@ -1,0 +1,1 @@
+Reads are processed in packs of 1000 and each pack is assigned to a thread. The default number of threads is 3 and the minimum base quality is 15. The tool is about 2.7 times faster than the baseline.

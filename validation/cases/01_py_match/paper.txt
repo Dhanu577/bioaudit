@@ -1,0 +1,1 @@
+Reads with a minimum read length of 50 bp were retained. We set the FDR threshold to 0.05. Cells were clustered using the Leiden algorithm with resolution 0.8. The graph was built using 15 nearest neighbors.

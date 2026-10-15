@@ -1,0 +1,1 @@
+Candidate peaks with p-values below a threshold (default 10-5) are called.

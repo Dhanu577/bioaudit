@@ -1,0 +1,2 @@
+In this section we present the design. 2.1 Overall design fastp is designed for multi-threading.
+1 Introduction Quality control is critical. Kraken 2 stores minimizers of the reference library.

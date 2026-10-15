@@ -1,0 +1,1 @@
+We use the (1 - p/2) quantile of a zero-centered normal distribution for the prior width.

@@ -1,0 +1,1 @@
+We match the 97.5% quantile of a normal distribution to the prior.

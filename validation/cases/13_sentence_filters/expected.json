@@ -1,0 +1,28 @@
+{
+  "expect": [
+    {
+      "kind": "number",
+      "key": "10",
+      "verdict": "RESULT_NEEDS_RUN"
+    },
+    {
+      "kind": "number",
+      "key": "0.05",
+      "verdict": "RESULT_NEEDS_RUN"
+    }
+  ],
+  "forbid": [
+    {
+      "kind": "concept",
+      "key": "linear_model"
+    },
+    {
+      "kind": "concept",
+      "key": "edger"
+    },
+    {
+      "kind": "concept",
+      "key": "deseq2"
+    }
+  ]
+}

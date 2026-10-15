@@ -1,0 +1,25 @@
+{
+  "expect": [
+    {
+      "kind": "number",
+      "key": "1000",
+      "verdict": "MISMATCH"
+    },
+    {
+      "kind": "number",
+      "key": "3",
+      "verdict": "MISMATCH"
+    },
+    {
+      "kind": "number",
+      "key": "15",
+      "verdict": "MISMATCH"
+    },
+    {
+      "kind": "number",
+      "key": "2.7",
+      "verdict": "RESULT_NEEDS_RUN"
+    }
+  ],
+  "forbid": []
+}

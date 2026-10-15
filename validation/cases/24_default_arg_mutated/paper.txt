@@ -1,0 +1,1 @@
+We use quantile matching with an upper quantile of 0.05 for the prior.

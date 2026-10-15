@@ -1,0 +1,31 @@
+{
+  "expect": [
+    {
+      "kind": "number",
+      "key": "0.05",
+      "verdict": "MATCH"
+    }
+  ],
+  "forbid": [
+    {
+      "kind": "number",
+      "key": "550"
+    },
+    {
+      "kind": "number",
+      "key": "21"
+    },
+    {
+      "kind": "number",
+      "key": "15"
+    },
+    {
+      "kind": "number",
+      "key": "4"
+    },
+    {
+      "kind": "number",
+      "key": "1"
+    }
+  ]
+}

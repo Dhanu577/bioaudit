@@ -1,0 +1,1 @@
+EBSeq by default removes genes below the 75% quantile, compared to the other algorithms.
