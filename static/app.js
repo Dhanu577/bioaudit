@@ -272,8 +272,56 @@ function displayReport(report, isDemo = false) {
 }
 function friendlyError(detail) {
   if (typeof detail === 'string') return detail;
-  if (Array.isArray(detail)) return detail.map(item => item.msg || 'Invalid input').join(' ');
+  if (Array.isArray(detail)) return detail.map(item => typeof item === 'string' ? item : (item?.msg || 'Invalid input')).join(' ');
   return 'The audit could not be completed. Check the inputs and try again.';
+}
+function isRecord(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+function isValidReport(payload) {
+  if (!isRecord(payload) || !isRecord(payload.meta) || !isRecord(payload.files_scanned) || !Array.isArray(payload.items)) return false;
+  return payload.items.every(item => isRecord(item)
+    && typeof item.kind === 'string'
+    && typeof item.key === 'string'
+    && typeof item.claim_id === 'string'
+    && typeof item.claim === 'string'
+    && typeof item.verdict === 'string'
+    && typeof item.detail === 'string'
+    && Array.isArray(item.evidence)
+    && item.evidence.every(evidence => isRecord(evidence)
+      && typeof evidence.path === 'string'
+      && Number.isInteger(evidence.line)
+      && typeof evidence.text === 'string'));
+}
+async function fetchReport(url, options, label) {
+  let response;
+  try {
+    response = await fetch(url, options);
+  } catch (error) {
+    if (error instanceof TypeError) throw new Error('Could not reach the Bioaudit backend. Check your connection and retry.');
+    throw new Error('The request stopped before Bioaudit returned a response. Check your connection and retry.');
+  }
+
+  let payload;
+  try {
+    payload = await response.json();
+  } catch (error) {
+    if (!response.ok) throw new Error(`Bioaudit returned HTTP ${response.status}, but its error details could not be read. Retry the request.`);
+    if (error instanceof TypeError) throw new Error(`${label} reached Bioaudit, but the report response was interrupted. The audit may have completed; retry with a smaller ZIP or use a public Git URL.`);
+    throw new Error(`${label} reached Bioaudit, but the response was not valid JSON. The audit may have completed; retry with a smaller ZIP or use a public Git URL.`);
+  }
+
+  if (!response.ok) throw new Error(friendlyError(payload?.detail));
+  if (!isValidReport(payload)) throw new Error(`${label} received a response, but its report structure is incomplete. The audit may have completed; retry with a smaller ZIP or use a public Git URL.`);
+  return payload;
+}
+function displayReportSafely(payload, isDemo) {
+  try {
+    displayReport(payload, isDemo);
+  } catch (error) {
+    console.error('Bioaudit report rendering failed after a successful response.', error);
+    throw new Error('Bioaudit returned a report, but the browser could not display it. Retry with a smaller ZIP or use a public Git URL.');
+  }
 }
 async function submitAudit(event) {
   event.preventDefault();
@@ -297,12 +345,10 @@ async function submitAudit(event) {
   }
   showLoading();
   try {
-    const response = await fetch('/api/audit', { method: 'POST', body: data, headers: { Accept: 'application/json' } });
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(friendlyError(payload.detail));
-    displayReport(payload, false);
+    const payload = await fetchReport('/api/audit', { method: 'POST', body: data, headers: { Accept: 'application/json' } }, 'The audit');
+    displayReportSafely(payload, false);
   } catch (error) {
-    setError(error.name === 'TypeError' ? 'Could not reach the Bioaudit backend. Check your connection and retry.' : (error.message || 'The audit failed. Check your inputs and try again.'));
+    setError(error.message || 'The audit failed. Check the inputs and try again.');
     $('#formError').scrollIntoView({ behavior: 'smooth', block: 'center' });
   } finally {
     stopLoading();
@@ -312,10 +358,8 @@ async function runDemo() {
   if (state.loading) return;
   showLoading('LOADING THE SYNTHETIC EXAMPLE');
   try {
-    const response = await fetch('/api/demo', { headers: { Accept: 'application/json' } });
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(friendlyError(payload.detail));
-    displayReport(payload, true);
+    const payload = await fetchReport('/api/demo', { headers: { Accept: 'application/json' } }, 'The sample report');
+    displayReportSafely(payload, true);
   } catch (error) {
     setError(error.message || 'The sample report could not be loaded.');
     $('#audit').scrollIntoView({ behavior: 'smooth', block: 'start' });

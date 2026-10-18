@@ -30,5 +30,8 @@ The Python Bioaudit v2 analyzer remains the sole analysis engine. The browser ap
 ## 8. Theme options
 - [x] Let the user switch between a white/light theme and a black/dark theme, keeping the current look as the dark theme; remember the selected theme across page reloads.
 
+## 9. Accurate audit-response errors
+- [x] For repository audits, distinguish network failures, HTTP errors, unreadable JSON, invalid report structure, and browser rendering failures. Do not label a successful backend response as “Could not reach the Bioaudit backend”; validate report shape before rendering and give a specific, actionable message if the browser cannot use the response.
+
 ## Design direction
 - Scientific editorial instrument panel: deep ink surfaces, cool mineral neutrals, and a distinctive electric-lime signal color; asymmetrical, evidence-first composition; restrained motion and precise monospaced evidence accents. Keep visual effects behind content so they never compete with findings.
