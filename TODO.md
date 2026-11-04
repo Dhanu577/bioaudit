@@ -33,5 +33,8 @@ The Python Bioaudit v2 analyzer remains the sole analysis engine. The browser ap
 ## 9. Accurate audit-response errors
 - [x] For repository audits, distinguish network failures, HTTP errors, unreadable JSON, invalid report structure, and browser rendering failures. Do not label a successful backend response as “Could not reach the Bioaudit backend”; validate report shape before rendering and give a specific, actionable message if the browser cannot use the response.
 
+## 10. Repository source-file input
+- [x] In addition to ZIP archives and public Git repository URLs, let the user select one or more supported source-code files for audit. Make the input mode explicit in the browser, validate supported file types and size limits on client and server, safely place uploaded files in a temporary repository directory, and pass that directory to the existing static analyzer without executing any uploaded code.
+
 ## Design direction
 - Scientific editorial instrument panel: deep ink surfaces, cool mineral neutrals, and a distinctive electric-lime signal color; asymmetrical, evidence-first composition; restrained motion and precise monospaced evidence accents. Keep visual effects behind content so they never compete with findings.

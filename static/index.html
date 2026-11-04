@@ -15,7 +15,7 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/theme.css">
-  <script src="/app.js?v=20261018-01" defer></script>
+  <script src="/app.js?v=20261104-01" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to the audit workspace</a>
@@ -107,8 +107,19 @@
             <div class="source-card source-repo">
               <div class="source-card-top"><span class="source-number">B / 02</span><span class="source-type">CODE REPOSITORY</span></div>
               <div class="mode-switch" role="group" aria-label="Repository input type">
+                <button class="mode-button" type="button" data-repo-mode="files" aria-pressed="false">Source files</button>
                 <button class="mode-button active" type="button" data-repo-mode="archive" aria-pressed="true">ZIP archive</button>
                 <button class="mode-button" type="button" data-repo-mode="url" aria-pressed="false">Public Git URL</button>
+              </div>
+              <div class="repo-mode-panel" id="filePanel" hidden>
+                <label class="dropzone compact-drop" id="sourceFilesDrop" for="sourceFilesInput">
+                  <input id="sourceFilesInput" type="file" multiple accept=".py,.ipynb,.r,.rmd,.c,.cc,.cpp,.cxx,.h,.hh,.hpp,.hxx,.pl,.pm,.sh,.bash">
+                  <span class="upload-symbol small-upload" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M9 4h9l6 6v18H9zM18 4v7h6M13 17h7m-7 4h7"/></svg></span>
+                  <span class="drop-title" id="sourceFilesTitle">Choose source-code files</span>
+                  <span class="drop-subtitle" id="sourceFilesMeta">Select one or more supported files</span>
+                  <span class="choose-link">Browse files <span>↗</span></span>
+                </label>
+                <div class="source-card-foot"><span>Python · R · C/C++ · scripts</span><span class="mini-dot"></span><span>2 MB/file · 100 MB total</span></div>
               </div>
               <div class="repo-mode-panel" id="archivePanel">
                 <label class="dropzone compact-drop" id="repoDrop" for="repoInput">

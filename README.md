@@ -16,7 +16,7 @@ Open `http://localhost:3000`. The app has no database or account requirement. Up
 ## Browser inputs
 
 - Research paper: selectable-text PDF or UTF-8 plain-text TXT, up to 40 MB. Scanned PDFs require OCR before use.
-- Repository: ZIP archive up to 100 MB (the existing safe extractor also enforces a 500 MB expanded-size cap and 20,000-entry cap), or a public HTTPS Git URL from GitHub, GitLab, or Bitbucket. Optional branch, tag, or commit is accepted for URL input.
+- Repository: choose one input mode: ZIP archive up to 100 MB (the existing safe extractor also enforces a 500 MB expanded-size cap and 20,000-entry cap); one or more source files (`.py`, `.ipynb`, `.r`, `.rmd`, `.c`, `.cc`, `.cpp`, `.cxx`, `.h`, `.hh`, `.hpp`, `.hxx`, `.pl`, `.pm`, `.sh`, `.bash`) up to 2 MB each and 100 MB combined; or a public HTTPS Git URL from GitHub, GitLab, or Bitbucket. Optional branch, tag, or commit is accepted for URL input. Direct file selection accepts files with unique filenames; use a ZIP archive when a repository needs nested folder structure or contains duplicate basenames.
 
 The URL allowlist limits remote-fetch destinations. Git clone/checkout obtains source only; Bioaudit never runs repository scripts, package installation, notebooks, or build commands. The API limits concurrent audits to two. Inputs and reports are not persisted by the server.
 
@@ -24,7 +24,7 @@ The URL allowlist limits remote-fetch destinations. Git clone/checkout obtains s
 
 - `GET /api/health` — backend readiness/version.
 - `GET /api/demo` — runs Bioaudit against a bundled **synthetic validation example**.
-- `POST /api/audit` — multipart form with `paper` and exactly one of `repo_archive` or `repo_url`, optional `revision` for a URL; returns the existing JSON report shape (`meta`, `files_scanned`, `warnings`, `items`, and evidence).
+- `POST /api/audit` — multipart form with `paper` and exactly one of `repo_archive`, repeated `repo_files`, or `repo_url`; optional `revision` for a URL. Uploaded source code is stored temporarily and passed to the existing scanner, never executed. Returns the existing JSON report shape (`meta`, `files_scanned`, `warnings`, `items`, and evidence).
 
 The UI exports the complete report as JSON or a portable HTML file. No server-side sharing links are created.
 

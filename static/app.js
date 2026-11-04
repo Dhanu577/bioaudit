@@ -2,6 +2,10 @@ const $ = (selector, root = document) => root.querySelector(selector);
 const state = { report: null, selected: -1, repoMode: 'archive', loading: false, timer: null };
 const VERDICTS = ['MISMATCH', 'PARTIAL_MATCH', 'NOT_FOUND', 'IMPORT_ONLY', 'VALUE_PRESENT_UNRELATED', 'RESULT_NEEDS_RUN', 'LITERAL_FOUND', 'MATCH', 'CALL_FOUND'];
 const KIND_LABEL = { number: 'PARAMETER / RESULT', concept: 'METHOD CONCEPT' };
+const SOURCE_EXTENSIONS = new Set(['.py', '.ipynb', '.r', '.rmd', '.c', '.cc', '.cpp', '.cxx', '.h', '.hh', '.hpp', '.hxx', '.pl', '.pm', '.sh', '.bash']);
+const MAX_SOURCE_FILE_BYTES = 2_000_000;
+const MAX_SOURCE_TOTAL_BYTES = 100 * 1024 * 1024;
+const MAX_SOURCE_FILES = 20_000;
 const THEME_STORAGE_KEY = 'bioaudit-theme';
 
 function setTheme(theme, persist = false) {
@@ -31,6 +35,7 @@ initTheme();
 const $form = $('#auditForm');
 const $paper = $('#paperInput');
 const $repo = $('#repoInput');
+const $sourceFiles = $('#sourceFilesInput');
 const $error = $('#formError');
 const $status = $('#runStatus');
 const $results = $('#results');
@@ -49,6 +54,12 @@ function formatBytes(bytes) {
   if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
+function setSourceFilesLabel() {
+  const files = Array.from($sourceFiles.files || []);
+  $('#sourceFilesTitle').textContent = files.length === 1 ? files[0].name : (files.length ? `${files.length} source files selected` : 'Choose source-code files');
+  const total = files.reduce((sum, file) => sum + file.size, 0);
+  $('#sourceFilesMeta').textContent = files.length ? `${formatBytes(total)} total · ready to scan` : 'Select one or more supported files';
+}
 function setRepoMode(mode) {
   state.repoMode = mode;
   document.querySelectorAll('[data-repo-mode]').forEach(button => {
@@ -56,6 +67,7 @@ function setRepoMode(mode) {
     button.classList.toggle('active', active);
     button.setAttribute('aria-pressed', String(active));
   });
+  $('#filePanel').hidden = mode !== 'files';
   $('#archivePanel').hidden = mode !== 'archive';
   $('#urlPanel').hidden = mode !== 'url';
   setError('');
@@ -331,7 +343,25 @@ async function submitAudit(event) {
   if (paperFile.size > 40 * 1024 * 1024) { setError('The paper exceeds the 40 MB upload limit.'); return; }
   const data = new FormData();
   data.append('paper', paperFile);
-  if (state.repoMode === 'archive') {
+  if (state.repoMode === 'files') {
+    const files = Array.from($sourceFiles.files || []);
+    if (!files.length) { setError('Choose one or more source-code files.'); $sourceFiles.focus(); return; }
+    if (files.length > MAX_SOURCE_FILES) { setError(`Select no more than ${MAX_SOURCE_FILES.toLocaleString()} source files.`); return; }
+    const names = new Set();
+    let total = 0;
+    for (const file of files) {
+      const name = file.name || '';
+      const extension = name.slice(name.lastIndexOf('.')).toLowerCase();
+      if (!name || name.includes('/') || name.includes('\\')) { setError('Upload source files by filename only; folder paths are not accepted.'); return; }
+      if (!SOURCE_EXTENSIONS.has(extension)) { setError(`${name} is not a supported source type. Choose Python, R, C/C++, Perl, or shell files.`); return; }
+      if (names.has(name.toLowerCase())) { setError(`More than one selected file is named ${name}. Rename duplicate files before uploading.`); return; }
+      names.add(name.toLowerCase());
+      if (file.size > MAX_SOURCE_FILE_BYTES) { setError(`${name} exceeds the 2 MB per-file scan limit.`); return; }
+      total += file.size;
+      if (total > MAX_SOURCE_TOTAL_BYTES) { setError('Selected source files exceed the 100 MB combined upload limit.'); return; }
+    }
+    files.forEach(file => data.append('repo_files', file, file.name));
+  } else if (state.repoMode === 'archive') {
     const repositoryFile = $repo.files?.[0];
     if (!repositoryFile) { setError('Choose a repository ZIP archive.'); $repo.focus(); return; }
     if (repositoryFile.size > 100 * 1024 * 1024) { setError('The repository archive exceeds the 100 MB upload limit.'); return; }
@@ -395,7 +425,8 @@ function toast(message) {
 
 $paper.addEventListener('change', () => setFileLabel($paper, $('#paperFileTitle'), $('#paperFileMeta'), 'Drop a paper here', 'PDF or plain text · max 40 MB'));
 $repo.addEventListener('change', () => setFileLabel($repo, $('#repoFileTitle'), $('#repoFileMeta'), 'Drop a repository ZIP', 'ZIP archive · max 100 MB'));
-attachDrop($('#paperDrop'), $paper); attachDrop($('#repoDrop'), $repo);
+$sourceFiles.addEventListener('change', setSourceFilesLabel);
+attachDrop($('#paperDrop'), $paper); attachDrop($('#repoDrop'), $repo); attachDrop($('#sourceFilesDrop'), $sourceFiles);
 document.querySelectorAll('[data-repo-mode]').forEach(button => button.addEventListener('click', () => setRepoMode(button.dataset.repoMode)));
 $form.addEventListener('submit', submitAudit);
 $('#startAudit').addEventListener('click', () => $('#audit').scrollIntoView({ behavior: 'smooth', block: 'start' }));
