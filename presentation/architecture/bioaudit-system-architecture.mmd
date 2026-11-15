@@ -1,0 +1,65 @@
+%%{init: {"theme":"base","themeVariables":{"background":"#0B1012","primaryColor":"#152126","primaryTextColor":"#F1F5F2","primaryBorderColor":"#718179","lineColor":"#B9CF46","secondaryColor":"#172328","tertiaryColor":"#11191C","fontFamily":"Inter, Arial, sans-serif","fontSize":"20px"},"flowchart":{"curve":"basis","htmlLabels":true,"nodeSpacing":48,"rankSpacing":74}}}%%
+flowchart LR
+  subgraph CLIENT["01 · INPUT & BROWSER"]
+    direction TB
+    INPUTS["Research paper<br/>PDF or TXT<br/><br/>Repository<br/>Source files · ZIP · public Git URL"]
+    UI["Bio-Audit web UI<br/>Choose inputs · run audit<br/>Review findings"]
+    INPUTS --> UI
+  end
+
+  subgraph INTAKE["02 · API & TEMPORARY INTAKE"]
+    direction TB
+    API["FastAPI backend<br/>POST /api/audit"]
+    CHECK["Validate file types, sizes<br/>and public Git URL"]
+    TEMP["Temporary workspace<br/>Paper + repository source<br/>Public Git fetched to temp only"]
+    API --> CHECK --> TEMP
+  end
+
+  subgraph ENGINE["03 · EXISTING BIO-AUDIT ANALYZER"]
+    direction TB
+    CLAIMS["Extract paper claims<br/>Parameter values · named methods"]
+    SCAN["Scan repository source<br/>Constants · method calls · evidence locations"]
+    COMPARE["Compare claims and code facts<br/>Assign one of 9 verdicts"]
+    SAFETY["SAFETY BOUNDARY<br/>Repository code is never executed<br/>No install · build · tests · scripts · benchmark"]
+    CLAIMS --> COMPARE
+    SCAN --> COMPARE
+    COMPARE --- SAFETY
+  end
+
+  subgraph OUTPUT["04 · REPORT & REVIEW"]
+    direction TB
+    REPORT["Structured report<br/>Verdicts · evidence · metadata"]
+    REVIEW["Browser findings view<br/>Search · filters · detail pane<br/>JSON / HTML export"]
+    CLEANUP["Temporary inputs discarded"]
+    REPORT --> REVIEW
+    REPORT -.-> CLEANUP
+  end
+
+  UI --> API
+  TEMP --> CLAIMS
+  TEMP --> SCAN
+  COMPARE --> REPORT
+
+  classDef input fill:#182226,stroke:#65736D,color:#F1F5F2,stroke-width:1.5px;
+  classDef ui fill:#1B292C,stroke:#B9CF46,color:#F8FAF4,stroke-width:2px;
+  classDef api fill:#152126,stroke:#89A69C,color:#F1F5F2,stroke-width:1.5px;
+  classDef stage fill:#192426,stroke:#718179,color:#F1F5F2,stroke-width:1.5px;
+  classDef engine fill:#202A25,stroke:#B9CF46,color:#F1F5F2,stroke-width:2px;
+  classDef result fill:#192426,stroke:#B9CF46,color:#F1F5F2,stroke-width:1.5px;
+  classDef safety fill:#281E1D,stroke:#D27A68,color:#FFE8E2,stroke-width:2px;
+  classDef cleanup fill:#152126,stroke:#718179,color:#DAE1DC,stroke-dasharray:4 3;
+
+  class INPUTS input;
+  class UI ui;
+  class API api;
+  class CHECK,TEMP stage;
+  class CLAIMS,SCAN stage;
+  class COMPARE engine;
+  class SAFETY safety;
+  class REPORT,REVIEW result;
+  class CLEANUP cleanup;
+
+  style CLIENT fill:#10181B,stroke:#43524C,stroke-width:1px,color:#C9D2CC
+  style INTAKE fill:#10181B,stroke:#43524C,stroke-width:1px,color:#C9D2CC
+  style ENGINE fill:#10181B,stroke:#6E7B42,stroke-width:1px,color:#DCE6BD
+  style OUTPUT fill:#10181B,stroke:#43524C,stroke-width:1px,color:#C9D2CC

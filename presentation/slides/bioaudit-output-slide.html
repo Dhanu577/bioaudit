@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bio-Audit — Output</title>
+<style>
+:root{--ink:#172329;--paper:#f6f2e9;--muted:#5d6963;--lime:#c7e34b;--mint:#59d7be;--coral:#ff8065;--violet:#9787ff;--blue:#6e8cff;--line:#d9ded5;--white:#fffefa}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:#e8e5dc;color:var(--ink)}
+body{display:flex;align-items:center;justify-content:center}
+.canvas{width:1600px;height:900px;padding:47px 62px 36px;position:relative;overflow:hidden;background-color:var(--paper);background-image:radial-gradient(#d6d2c6 .75px,transparent .75px);background-size:20px 20px}
+.canvas:before{content:"";position:absolute;width:390px;height:390px;border-radius:50%;right:-165px;top:-210px;background:radial-gradient(circle at 38% 58%,rgba(151,135,255,.20),rgba(151,135,255,0) 69%);pointer-events:none}
+.canvas:after{content:"";position:absolute;width:360px;height:360px;border-radius:50%;left:-220px;bottom:-240px;background:radial-gradient(circle,rgba(89,215,190,.20),rgba(89,215,190,0) 70%);pointer-events:none}
+header{height:147px;display:flex;align-items:center;justify-content:space-between;gap:30px;position:relative;z-index:1}
+.head-left{display:flex;align-items:flex-start;gap:15px}
+.mark{width:44px;height:44px;flex:none;margin-top:2px;border-radius:14px 14px 14px 4px;background:var(--ink);display:grid;place-items:center;box-shadow:4px 4px 0 var(--lime);transform:rotate(-3deg)}
+.mark svg{width:27px;height:27px}
+.eyebrow{font:800 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;color:#67746d;text-transform:uppercase;margin-bottom:9px}
+h1{font-size:39px;line-height:1.06;letter-spacing:-.045em;margin:0;font-weight:780;color:var(--ink)}
+.subtitle{font-size:15px;line-height:1.4;color:#53615d;margin-top:9px}
+.scoreboard{display:flex;align-items:center;gap:0;background:var(--ink);color:#f7f7ee;border-radius:14px 14px 14px 5px;padding:14px 17px;transform:rotate(1deg);box-shadow:5px 6px 0 var(--coral);min-width:253px}
+.score{min-width:91px;text-align:center}
+.score b{display:block;font-size:27px;line-height:1;font-weight:850;letter-spacing:-.04em}
+.score span{display:block;margin-top:7px;font:800 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.09em;text-transform:uppercase;color:#c9d2cb}
+.score:first-child b{color:var(--lime)}.score:last-child b{color:#ffad87}
+.score-divider{height:39px;border-left:1px dashed #67736c;margin:0 10px}
+.legend{position:absolute;top:155px;right:64px;font:800 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#859087}
+.cards{position:relative;z-index:1;height:566px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:18px 20px;padding-top:12px}
+.card{position:relative;display:grid;grid-template-columns:1.03fr 38px 1.2fr;align-items:center;gap:4px;padding:18px 19px 18px;background:var(--white);border:1.6px solid var(--ink);border-radius:18px 18px 18px 6px;box-shadow:5px 6px 0 rgba(23,35,41,.13),0 12px 26px rgba(23,35,41,.06);overflow:hidden}
+.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--accent)}
+.card:after{content:"";position:absolute;right:-42px;top:-45px;width:126px;height:126px;border:1px solid rgba(23,35,41,.07);border-radius:50%;box-shadow:0 0 0 13px rgba(23,35,41,.025),0 0 0 26px rgba(23,35,41,.018);pointer-events:none}
+.card.match{--accent:#93c53d}.card.needs{--accent:var(--coral);background:#fffaf5}
+.card-top{position:absolute;left:20px;top:12px;display:flex;align-items:center;gap:8px;font:800 9px/1.1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#68746d}
+.card-top .idx{width:20px;height:20px;border:1px solid #d6ddd3;border-radius:50%;background:#fff;display:grid;place-items:center;color:#33413a;letter-spacing:0}
+.verdict{position:absolute;right:18px;top:13px;z-index:2;padding:7px 9px;border-radius:5px;transform:rotate(2deg);font:900 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.07em;box-shadow:2px 3px 0 rgba(23,35,41,.12)}
+.match .verdict{background:#dff1a5;color:#33491a;border:1px solid #90b439}.needs .verdict{background:#ffddd0;color:#763c2e;border:1px solid #e89178}
+.panel{min-width:0;padding-top:17px}
+.label{font:800 8px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:#839087;margin-bottom:9px}
+.claim{font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.24;letter-spacing:-.02em;color:#24312c}
+.claim strong{font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-weight:850;color:#172329;background:linear-gradient(transparent 64%,rgba(199,227,75,.62) 64%);padding:0 2px}
+.connect{display:flex;align-items:center;justify-content:center;color:#758b32}
+.connect svg{width:30px;height:28px;overflow:visible}
+.connect path{fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:3 3}
+.evidence{background:#202a31;color:#f4f5ec;border-radius:10px 10px 10px 4px;padding:11px 12px 10px;box-shadow:3px 4px 0 rgba(23,35,41,.15);border:1px solid #182329;position:relative;z-index:1}
+.fileline{display:flex;justify-content:space-between;gap:10px;align-items:center;font:700 8px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;color:#b8c3bc;border-bottom:1px solid #47524f;padding-bottom:7px;margin-bottom:8px;letter-spacing:.04em}
+.fileline span:last-child{color:#d5e789}
+code{font:600 11px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:normal;word-break:break-word;color:#f4f5ec}
+.hl{color:#d8f078;font-weight:900}
+.evidence-note{font:600 8px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;color:#abb6af;margin-top:7px}
+.measure-box{display:flex;align-items:center;gap:9px;background:#fff0e8;color:#693f34;padding:9px 10px;border-radius:8px;border:1px dashed #dd9b85;font-size:10px;line-height:1.35;font-weight:650}
+.measure-icon{width:27px;height:27px;display:grid;place-items:center;border-radius:8px;background:#ff8065;flex:none}
+.measure-icon svg{width:16px;height:16px}
+footer{height:96px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;position:relative;z-index:1}
+.caveat{flex:1;display:flex;align-items:center;gap:12px;min-height:53px;padding:11px 15px;background:var(--ink);color:#eef2eb;border-radius:12px 12px 12px 4px;box-shadow:5px 5px 0 var(--mint);font-size:11px;line-height:1.4}
+.caveat strong{font:900 9px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;color:var(--lime);text-transform:uppercase;white-space:nowrap}
+.caveat .sep{height:22px;border-left:1px solid #58635d}
+.footer-tag{font:800 8px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;color:#6e7971;text-align:right;text-transform:uppercase;white-space:nowrap}
+@media(max-width:1600px){.canvas{transform:scale(.8);transform-origin:top left}}
+</style>
+</head>
+<body>
+<main class="canvas">
+<header>
+  <div class="head-left">
+    <div class="mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M7 21 14 8l10 15M8 21h17" stroke="#c7e34b" stroke-width="2" stroke-linecap="round"/><circle cx="7" cy="21" r="3" fill="#59d7be"/><circle cx="14" cy="8" r="3" fill="#ff8065"/><circle cx="24" cy="23" r="3" fill="#9787ff"/></svg></div>
+    <div>
+      <div class="eyebrow">Bio-Audit · Output snapshot · Demo run 01</div>
+      <h1>Every claim gets an evidence trail.</h1>
+      <div class="subtitle">Four paper claims reviewed · three static matches · one result needs a real run.</div>
+    </div>
+  </div>
+  <div class="scoreboard" aria-label="3 matches, 1 result needs run">
+    <div class="score"><b>03</b><span>Static matches</span></div><div class="score-divider"></div>
+    <div class="score"><b>01</b><span>Needs a run</span></div>
+  </div>
+</header>
+<div class="legend">Paper claim &nbsp;→&nbsp; source evidence &nbsp;→&nbsp; verdict</div>
+<section class="cards" aria-label="Four paper claims and their audit results">
+  <article class="card match">
+    <div class="card-top"><span class="idx">01</span> Parameter claim</div><div class="verdict">✓ MATCH</div>
+    <div class="panel"><div class="label">The paper says</div><div class="claim">“Reads are processed in packs of <strong>1000</strong>…”</div></div>
+    <div class="connect" aria-hidden="true"><svg viewBox="0 0 30 28"><path d="M2 14h22m-7-7 7 7-7 7"/></svg></div>
+    <div class="panel"><div class="label">Found in source code</div><div class="evidence"><div class="fileline"><span>options.cpp</span><span>LINE 3</span></div><code>#define PACK_SIZE <span class="hl">1000</span></code></div></div>
+  </article>
+
+  <article class="card match">
+    <div class="card-top"><span class="idx">02</span> Parameter claim</div><div class="verdict">✓ MATCH</div>
+    <div class="panel"><div class="label">The paper says</div><div class="claim">“The default number of threads is <strong>3</strong>.”</div></div>
+    <div class="connect" aria-hidden="true"><svg viewBox="0 0 30 28"><path d="M2 14h22m-7-7 7 7-7 7"/></svg></div>
+    <div class="panel"><div class="label">Found in source code</div><div class="evidence"><div class="fileline"><span>options.cpp</span><span>LINE 4</span></div><code>struct Options { int thread = <span class="hl">3</span>; … };</code></div></div>
+  </article>
+
+  <article class="card match">
+    <div class="card-top"><span class="idx">03</span> Parameter claim</div><div class="verdict">✓ MATCH</div>
+    <div class="panel"><div class="label">The paper says</div><div class="claim">“The minimum base quality is <strong>15</strong>.”</div></div>
+    <div class="connect" aria-hidden="true"><svg viewBox="0 0 30 28"><path d="M2 14h22m-7-7 7 7-7 7"/></svg></div>
+    <div class="panel"><div class="label">Found in source code</div><div class="evidence"><div class="fileline"><span>options.cpp</span><span>LINE 4</span></div><code>… qualified_quality_phred = <span class="hl">15</span>; };</code></div></div>
+  </article>
+
+  <article class="card needs">
+    <div class="card-top"><span class="idx">04</span> Performance claim</div><div class="verdict">◷ NEEDS RUN</div>
+    <div class="panel"><div class="label">The paper says</div><div class="claim">“The tool is about <strong>2.7× faster</strong> than the baseline.”</div></div>
+    <div class="connect" aria-hidden="true"><svg viewBox="0 0 30 28"><path d="M2 14h22m-7-7 7 7-7 7"/></svg></div>
+    <div class="panel"><div class="label">What static analysis can say</div><div class="measure-box"><span class="measure-icon"><svg viewBox="0 0 20 20" fill="none"><circle cx="8" cy="8" r="5" stroke="#34211d" stroke-width="1.8"/><path d="m12 12 5 5M8 5v6M5 8h6" stroke="#34211d" stroke-width="1.6" stroke-linecap="round"/></svg></span><span>Speed needs a real benchmark on the paper’s data. This code was not run.</span></div></div>
+  </article>
+</section>
+<footer>
+  <div class="caveat"><strong>How to read this</strong><span class="sep"></span><span>A static <b>MATCH</b> shows correspondence in the files—not proof of correct execution. Performance claims need an actual run.</span></div>
+  <div class="footer-tag">Traceable evidence<br>Human review stays essential</div>
+</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,1 @@
+DESeq2 flags samples with a Cook's distance greater than the 0.99 quantile of the F distribution.

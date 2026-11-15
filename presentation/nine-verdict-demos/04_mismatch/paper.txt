@@ -1,0 +1,1 @@
+Reads with a minimum read length of 50 bp were retained.

@@ -1,0 +1,1 @@
+MIN_READ_LENGTH = 20
